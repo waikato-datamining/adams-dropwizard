@@ -1,0 +1,16 @@
+# Project: adams
+# Date: 2025-07-24 16:49:32
+# User: fracpete
+# Charset: UTF-8
+# Modules: adams-core,adams-event,adams-json,adams-net,adams-rest-dw,adams-security
+#
+adams.flow.control.Flow -execute-on-error adams.flow.control.postflowexecution.Null -execute-on-finish adams.flow.control.postflowexecution.Null -flow-execution-listener adams.flow.execution.NullListener -flow-restart-manager adams.flow.control.flowrestart.NullManager
+ adams.flow.source.EnterValue -message "Please enter a value to send to REST service" -initial-value "hello world!"
+ adams.flow.transformer.Convert -conversion adams.data.conversion.URLEncode
+ adams.flow.transformer.StringInsert -position first -value http://localhost:8080/echo/
+ adams.flow.transformer.SetVariable -var-name url
+ adams.flow.control.Trigger -name "query service"
+  adams.flow.source.HttpRequest -url @{url} -method GET
+  adams.flow.control.ContainerValuePicker -value Body -switch-outputs true
+  adams.flow.transformer.Convert -conversion adams.data.conversion.URLDecode
+  adams.flow.sink.Display -display-type adams.flow.core.displaytype.Default -writer adams.data.io.output.NullWriter

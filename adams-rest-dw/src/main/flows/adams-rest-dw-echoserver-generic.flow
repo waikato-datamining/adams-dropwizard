@@ -1,0 +1,12 @@
+# Project: adams
+# Date: 2025-07-24 19:57:26
+# User: fracpete
+# Charset: UTF-8
+# Modules: adams-core,adams-event,adams-json,adams-net,adams-rest-dw,adams-security
+#
+adams.flow.control.Flow -execute-on-error adams.flow.control.postflowexecution.Null -execute-on-finish adams.flow.control.postflowexecution.Null -flow-execution-listener adams.flow.execution.NullListener -flow-restart-manager adams.flow.control.flowrestart.NullManager
+ adams.flow.standalone.DropwizardRESTServer -web-service adams.flow.dropwizard.echo.EchoServer
+ adams.flow.source.Start
+ adams.flow.control.WhileLoop -condition adams.flow.condition.bool.True
+  adams.flow.source.Start
+  adams.flow.control.Sleep
