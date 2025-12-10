@@ -190,8 +190,10 @@ public abstract class AbstractRESTProvider
    * @throws Exception	if stopping fails
    */
   protected void doStop() throws Exception {
-    if (m_Environment != null)
+    if (m_Environment != null) {
       m_Environment.getApplicationContext().getServer().stop();
+      m_Environment.getApplicationContext().getServer().destroy();
+    }
   }
 
   /**
